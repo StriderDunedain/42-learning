@@ -6,7 +6,7 @@
 /*   By: mtrukhin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 22:13:04 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/05/03 15:32:45 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/05/03 18:33:23 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ ssize_t	read_line(int fd, char *temp, char **line)
 	while (bytes_read > 0)
 	{
 		i = 0;
-		while (*line && (*line)[i] && (*line)[i] != '\n')
+		while (*line != NULL && (*line)[i] && (*line)[i] != '\n')
 			i++;
 		if (*line && (*line)[i] == '\n')
 			break ;
@@ -41,6 +41,8 @@ ssize_t	read_line(int fd, char *temp, char **line)
 		temp[bytes_read] = '\0';
 		if (bytes_read > 0)
 			*line = append(*line, temp);
+		if (!*line)
+			return (-1);
 	}
 	return (bytes_read);
 }
@@ -83,9 +85,9 @@ char	*trim_line(char *line)
 		return (NULL);
 	while (line[i] && line[i] != '\n')
 		i++;
-	if (!line[i])
-		return (free(line), NULL);
-	trimmed = malloc(ft_len(line) - ++i + 1);
+	if (line[i] == '\n')
+		i++;
+	trimmed = malloc(ft_len(line) - i + 1);
 	if (!trimmed)
 		return (NULL);
 	while (line[i])
@@ -103,7 +105,7 @@ char	*append(char *line, char *temp)
 
 	new_line = malloc(ft_len(line) + ft_len(temp) + 1);
 	if (!new_line)
-		return (NULL);
+		return (free(line), NULL);
 	i = 0;
 	j = 0;
 	while (line && line[j])

@@ -6,7 +6,7 @@
 /*   By: mtrukhin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 21:09:48 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/05/03 15:41:19 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/05/03 18:39:50 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,19 @@ char	*get_next_line(int fd)
 		return (NULL);
 	bytes_read = read_line(fd, temp, &line);
 	free(temp);
-	if (bytes_read < 0)
+	if (bytes_read < 0 || !line || !*line)
 	{
 		free(line);
 		line = NULL;
 		return (NULL);
 	}
-	if (!line || !*line)
-		return (NULL);
 	clean_line = extract_line(line);
 	line = trim_line(line);
 	return (clean_line);
 }
 
 /*int	main(void) {
-	int		fd = open("/home/mtrukhin/dev/get_next_line/test.txt", O_RDONLY);
+	int		fd = open("./test.txt", O_RDONLY);
 	char	*res;
 
 	while ((res = get_next_line(fd))) {
@@ -54,7 +52,10 @@ char	*get_next_line(int fd)
 				printf("%c", res[i]);
 			i++;
 		}
+		free(res);
 		printf("\"\n");
 		printf("-----\n");
 	}
+	printf("%s\n", res);
+	free(res);
 }*/
