@@ -3,7 +3,7 @@ NAME = libftprintf.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = $(wildcard *.c)
+SRCS = converters.c ft_printf.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
