@@ -12,15 +12,19 @@
 
 #include "ft_printf.h"
 
-int	print_str(char *str)
+int	print_str(const char *str)
 {
 	int	count;
 
 	if (!str)
-		return (write(1, "(null)", 6));
+		str = "(null)";
 	count = 0;
 	while (*str)
-		count += write(1, str++, 1);
+	{
+		if (write(1, str++, 1) == -1)
+			return (-1);
+		count++;
+	}
 	return (count);
 }
 
@@ -31,43 +35,53 @@ int	print_char(char c)
 
 int	print_int(int n)
 {
-	int	count;
+	long	nb;
+	int		res;
+	int		sign;
 
-	if (n == INT_MIN)
-		return (print_str("-2147483648"));
-	count = 0;
-	if (n < 0)
+	nb = n;
+	sign = 0;
+	if (nb < 0)
 	{
-		count += print_str("-");
-		n = -n;
+		if (print_char('-') == -1)
+			return (-1);
+		nb = -nb;
+		sign = 1;
 	}
-	if (n >= 10)
-		count += print_int(n / 10);
-	count += print_char((n % 10) + '0');
-	return (count);
+	res = print_ubase(nb, DEC_BASE, DEC);
+	if (res == -1)
+		return (-1);
+	return (res + sign);
 }
 
-int	print_ubase(unsigned long n, unsigned long base, char *alphabet)
+int	print_ubase(uintmax_t n, uintmax_t base, const char *alphabet)
 {
 	int	count;
+	int	res;
 
 	count = 0;
 	if (n >= base)
-		count += print_ubase(n / base, base, alphabet);
-	count += print_char(alphabet[n % base]);
-	return (count);
+	{
+		res = print_ubase(n / base, base, alphabet);
+		if (res == -1)
+			return (-1);
+		count += res;
+	}
+	if (print_char(alphabet[n % base]) == -1)
+		return (-1);
+	return (count + 1);
 }
 
 int	print_ptr(void *ptr)
 {
+	int	res;
+
 	if (!ptr)
 		return (print_str("(nil)"));
-	print_str("0x");
-	return (print_ubase((unsigned long)ptr, 16, "0123456789abcdef") + 2);
+	if (print_str("0x") == -1)
+		return (-1);
+	res = print_ubase((uintmax_t)(uintptr_t)ptr, HEX_BASE, HEX_LOWER);
+	if (res == -1)
+		return (-1);
+	return (res + 2);
 }
-
-/*int	main(void) {
-	int	i = 5;
-	printf(": %i\n", printf("%i", i));
-	printf(": %i\n", print_int(i));
-}*/

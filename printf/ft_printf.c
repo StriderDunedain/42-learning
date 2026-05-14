@@ -12,57 +12,59 @@
 
 #include "ft_printf.h"
 
-int	spec_handler(va_list lst, char c)
+int	spec_handler(va_list *lst, char c)
 {
-	int	size;
-
-	size = 0;
 	if (c == 'c')
-		size += print_char((char)va_arg(lst, int));
+		return (print_char((char)va_arg(*lst, int)));
 	else if (c == 's')
-		size += print_str(va_arg(lst, char *));
+		return (print_str(va_arg(*lst, char *)));
 	else if (c == 'p')
-		size += print_ptr(va_arg(lst, void *));
+		return (print_ptr(va_arg(*lst, void *)));
 	else if (c == 'd' || c == 'i')
-		size += print_int(va_arg(lst, int));
+		return (print_int(va_arg(*lst, int)));
 	else if (c == 'u')
-		size += print_ubase(va_arg(lst, unsigned int), 10, "0123456789");
+		return (print_ubase(va_arg(*lst, unsigned int), DEC_BASE, DEC));
 	else if (c == 'x')
-		size += print_ubase(va_arg(lst, unsigned int), 16, "0123456789abcdef");
+		return (print_ubase(va_arg(*lst, unsigned int), HEX_BASE, HEX_LOWER));
 	else if (c == 'X')
-		size += print_ubase(va_arg(lst, unsigned int), 16, "0123456789ABCDEF");
-	else
-		size += print_char(c);
-	return (size);
+		return (print_ubase(va_arg(*lst, unsigned int), HEX_BASE, HEX_UPPER));
+	return (print_char(c));
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	lst;
 	int		size;
+	int		tmp;
 
 	size = 0;
 	va_start(lst, str);
 	while (*str)
 	{
 		if (*str == '%' && *(str + 1))
-			size += spec_handler(lst, *(++str));
+		{
+			tmp = spec_handler(&lst, *(++str));
+			if (tmp == -1)
+				return (va_end(lst), -1);
+			size += tmp;
+		}
 		else
-			size += write(1, str, 1);
+		{
+			if (write(1, str, 1) == -1)
+				return (va_end(lst), -1);
+			size++;
+		}
 		str++;
 	}
 	va_end(lst);
 	return (size);
 }
 
-/*int	main(void) {
-	#include <stdio.h>
-	printf("%i:\n");
-	ft_printf("%i:\n\n");
-	printf("%h:\n");
-	ft_printf("%h:\n\n");
-	printf("%:\n");
-	ft_printf("%:\n\n");
-	printf("%%:\n");
-	ft_printf("%%:\n\n");
-}*/
+// int	main(void) {
+// 	printf("%i\n", printf(""));
+// 	printf("%i\n", ft_printf(""));
+// 	printf("%i\n", printf("%"));
+// 	printf("%i\n", ft_printf("%"));
+// 	printf("%i\n", printf("fdj%wff", 55));
+// 	printf("%i\n", ft_printf("fdj%wff", 55));
+// }
