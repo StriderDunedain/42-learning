@@ -6,7 +6,7 @@
 /*   By: mtrukhin <mtrukhin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 19:50:48 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/06/04 02:49:07 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/06/08 16:34:43 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	print_ubase(uintmax_t n, uintmax_t base, const char *alphabet)
 	if (n >= base)
 	{
 		res = print_ubase(n / base, base, alphabet);
-		if (res == -1 || write(1, &alphabet[n % base], 1) == -1)
+		if (res < 0 || write(1, &alphabet[n % base], 1) == -1)
 			return (-1);
 		return (res + 1);
 	}
@@ -45,7 +45,7 @@ int	print_int(int n)
 	if (n < 0 && write(1, "-", 1) == -1)
 		return (-1);
 	res = print_ubase((long)(n)*((n >= 0) - (n < 0)), DEC_BASE, DEC);
-	return (res + (n < 0 && res != -1));
+	return (res + (n < 0 && res >= 0));
 }
 
 int	spec_handler(va_list *lst, char c)
@@ -70,10 +70,10 @@ int	spec_handler(va_list *lst, char c)
 	ptr = va_arg(*lst, void *);
 	if (!ptr)
 		return (print_str("(nil)"));
-	if (print_str("0x") == -1)
+	if (print_str("0x") < 0)
 		return (-1);
 	res = print_ubase((uintptr_t)ptr, HEX_BASE, HEX_LOWER);
-	return (res + 2 * (res != -1));
+	return (res + 2 * !!~res);
 }
 
 int	ft_printf(const char *str, ...)
@@ -90,7 +90,7 @@ int	ft_printf(const char *str, ...)
 			bytes = spec_handler(&lst, *(++str));
 		else
 			bytes = write(1, str, 1);
-		if (bytes == -1)
+		if (bytes < 0)
 			return (va_end(lst), -1);
 		size += bytes;
 		++str;
