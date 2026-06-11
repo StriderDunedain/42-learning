@@ -3,17 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtrukhin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtrukhin <mtrukhin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 19:50:48 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/05/10 13:24:14 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/06/11 22:42:20 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	spec_handler(va_list *lst, char c)
+static int	get_precision(const char **str)
 {
+	if (*(*str)++ == '.')
+		return (*(*str)++ - '0');
+	return (DEFAULT_PRECISION);
+}
+
+int	spec_handler(va_list *lst, const char **str)
+{
+	char	c;
+
+	c = *(++(*str));
 	if (c == 'c')
 		return (print_char((char)va_arg(*lst, int)));
 	else if (c == 's')
@@ -22,6 +32,8 @@ int	spec_handler(va_list *lst, char c)
 		return (print_ptr(va_arg(*lst, void *)));
 	else if (c == 'd' || c == 'i')
 		return (print_int(va_arg(*lst, int)));
+	else if (c == 'f' || c == '.')
+		return (print_float(va_arg(*lst, double), get_precision(str)));
 	else if (c == 'u')
 		return (print_ubase(va_arg(*lst, unsigned int), DEC_BASE, DEC));
 	else if (c == 'x')
@@ -35,36 +47,25 @@ int	ft_printf(const char *str, ...)
 {
 	va_list	lst;
 	int		size;
-	int		tmp;
+	int		bytes;
 
 	size = 0;
 	va_start(lst, str);
 	while (*str)
 	{
 		if (*str == '%' && *(str + 1))
-		{
-			tmp = spec_handler(&lst, *(++str));
-			if (tmp == -1)
-				return (va_end(lst), -1);
-			size += tmp;
-		}
+			bytes = spec_handler(&lst, &str);
 		else
-		{
-			if (write(1, str, 1) == -1)
-				return (va_end(lst), -1);
-			size++;
-		}
-		str++;
+			bytes = write(1, str, 1);
+		if (bytes < 0)
+			return (va_end(lst), ERROR);
+		size += bytes;
+		++str;
 	}
 	va_end(lst);
 	return (size);
 }
 
-// int	main(void) {
-// 	printf("%i\n", printf(""));
-// 	printf("%i\n", ft_printf(""));
-// 	printf("%i\n", printf("%"));
-// 	printf("%i\n", ft_printf("%"));
-// 	printf("%i\n", printf("fdj%wff", 55));
-// 	printf("%i\n", ft_printf("fdj%wff", 55));
-// }
+int	main(void) {
+	ft_printf("This is a string %.6f", 125.00054);
+}
