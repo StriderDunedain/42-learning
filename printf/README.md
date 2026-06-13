@@ -1,7 +1,10 @@
 *This project has been created as part of the 42 curriculum by mtrukhin.*
 
+### IMPORTANT
+This is a modified version that was expanded from the original ft_printf (sans bonuses) to also print floats (i.e. `%f`) for push_swap AND DOES NOT CONSTITUTE A MOULINETTE-PROOF PROJECT!!! If you really want to, you can just delete everything pertaining to printing floats and it'll pass it for sure
+
 ### Description
-The goal of this project is to invent a bycicle by programming a custom `printf` called `ft_printf`. Works on these format specifiers: cspdiuxX%. Use it like a normal printf. The undefined behavior isn't guaranteed to be the same as the originals. And I swear to God if I'll have to protect write for failing...
+The goal of this project is to invent a bicycle by programming a custom `printf` called `ft_printf`. Works on these format specifiers: cspdiuxX%. Use it like a normal printf. The undefined behavior isn't guaranteed to be the same as the originals. And I swear to God if I'll have to protect write for failing...
 
 Learnt a bit about variadic arguments, that was fun
 
