@@ -6,7 +6,7 @@
 /*   By: mtrukhin <mtrukhin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 19:38:39 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/06/11 21:37:25 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/06/13 15:08:32 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@
 
 # ifndef DEFAULT_PRECISION
 #  define DEFAULT_PRECISION 6
-#endif
+# endif
 
 # ifndef ERROR
 #  define ERROR -1
-#endif
+# endif
 
 int	print_str(const char *str);
 int	print_char(char c);
@@ -52,6 +52,6 @@ int	print_ubase(uintmax_t n, uintmax_t base, const char *alphabet);
 int	print_ptr(void *n);
 int	spec_handler(va_list *lst, const char **str);
 int	ft_printf(const char *str, ...);
-int print_float(double f, int precision);
+int	print_float(double f, int precision);
 
 #endif

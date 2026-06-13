@@ -6,7 +6,7 @@
 /*   By: mtrukhin <mtrukhin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 20:33:43 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/06/11 22:41:09 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/06/13 15:10:27 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	_print_float(long whole, long factor, long frac)
 static long	handle_frac(double f, long factor, long *whole)
 {
 	long	frac;
-	
+
 	frac = (long)((f - *whole) * factor + 0.5);
 	if (frac >= factor)
 	{
@@ -63,11 +63,11 @@ static long	handle_frac(double f, long factor, long *whole)
 	return (frac);
 }
 
-int print_float(double f, int precision)
+int	print_float(double f, int precision)
 {
 	int		tmp;
 	int		written;
-    long	whole;
+	long	whole;
 	long	frac;
 
 	written = 0;

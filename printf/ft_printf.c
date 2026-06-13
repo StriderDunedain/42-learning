@@ -6,7 +6,7 @@
 /*   By: mtrukhin <mtrukhin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 19:50:48 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/06/11 22:42:20 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/06/13 15:07:35 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ int	ft_printf(const char *str, ...)
 	return (size);
 }
 
-int	main(void) {
-	ft_printf("This is a string %.6f", 125.00054);
-}
+// int	main(void) {
+// 	ft_printf("This is a string %.6f", 125.00054);
+// }
