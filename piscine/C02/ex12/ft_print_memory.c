@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_memory.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtrukhin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtrukhin <mtrukhin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 04:32:59 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/06/10 04:18:49 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/06/14 10:24:23 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void	*ft_print_memory(void *addr, unsigned int size)
 	}
 	return (addr);
 }
-int	main(void) {
-	void	*void_ptr = "This\n is a message!\n It's supposed to be very cool!";
+// int	main(void) {
+// 	void	*void_ptr = "This\n is a message!\n It's supposed to be very cool!";
 
-	ft_print_memory(void_ptr, 75);
-	write(1, "\n5-char iteration\n", 18);
-	ft_print_memory(void_ptr, 5);
-}
+// 	ft_print_memory(void_ptr, 75);
+// 	write(1, "\n5-char iteration\n", 18);
+// 	ft_print_memory(void_ptr, 5);
+// }
