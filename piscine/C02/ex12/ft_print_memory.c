@@ -6,7 +6,7 @@
 /*   By: mtrukhin <mtrukhin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 04:32:59 by mtrukhin          #+#    #+#             */
-/*   Updated: 2026/06/14 10:24:23 by mtrukhin         ###   ########.fr       */
+/*   Updated: 2026/06/23 11:05:14 by mtrukhin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	*ft_print_memory(void *addr, unsigned int size)
 // int	main(void) {
 // 	void	*void_ptr = "This\n is a message!\n It's supposed to be very cool!";
 
-// 	ft_print_memory(void_ptr, 75);
+// 	ft_print_memory(void_ptr, 50);
 // 	write(1, "\n5-char iteration\n", 18);
 // 	ft_print_memory(void_ptr, 5);
 // }
